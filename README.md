@@ -11,8 +11,30 @@ A low-resource optimized Paper 1.21.11 fork for 20-player servers.
 ## Specifications
 | Metric | Value |
 |---|---|
-| **Startup Time** | ~16s (1GB RAM, Java 26 ZGC) |
+## Specifications
+| Metric | Value |
+|---|---|
 | **Memory** | 1GB minimum, 200 players on 16GB |
+| **View Distance** | 5 chunks |
+| **Entity Tracking** | Players: 48, Animals: 24, Monsters: 32, Misc: 16 |
+| **Broadcast Interval** | 6 ticks |
+| **Chunk Send Rate** | 15/s |
+| **Chunk Load Rate** | 25/s |
+| **Chunk Gen Rate** | 5/s |
+| **Item Despawn** | 3000 ticks (2.5 min) |
+| **Hopper Transfer** | 20 ticks |
+| **I/O Threads** | CPU/4 |
+| **Chunk Cache** | 128MB–1024MB |
+| **Java** | 21+ (ZGC recommended) |
+| **Compression** | Velocity libdeflate + OpenSSL |
+| **JAR Size** | ~53 MB |
+
+## Benchmarks (Java 26 ZGC, idle, no players)
+| RAM | Startup | Idle Memory | TPS (60s) |
+|-----|---------|-------------|-----------|
+| **2GB** | 19.1s | 1973MB | 20.0 |
+| **4GB** | 20.1s | 2878MB | 20.0 |
+| **8GB** | 23.1s | 2714MB | 20.0 |
 | **View Distance** | 5 chunks |
 | **Entity Tracking** | Players: 48, Animals: 24, Monsters: 32, Misc: 16 |
 | **Broadcast Interval** | 6 ticks |
