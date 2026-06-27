@@ -316,8 +316,10 @@
 +                double vec3_dx = player.getX() - this.entity.getX();
 +                double vec3_dz = player.getZ() - this.entity.getZ();
 +                // Paper end - remove allocation of Vec3D here
-                 int playerViewDistance = ChunkMap.this.getPlayerViewDistance(player);
-                 double d = Math.min(this.getEffectiveRange(), playerViewDistance * 16);
+-                int playerViewDistance = ChunkMap.this.getPlayerViewDistance(player);
+-                double d = Math.min(this.getEffectiveRange(), playerViewDistance * 16);
++                int playerViewDistance = Math.min(ChunkMap.this.getPlayerViewDistance(player), io.papermc.paper.util.AmetystKQBootstrap.MAX_VIEW_DISTANCE);
++                double d = Math.min(this.getEffectiveRange(), playerViewDistance * 16);
 -                double d1 = vec3.x * vec3.x + vec3.z * vec3.z;
 +                double d1 = vec3_dx * vec3_dx + vec3_dz * vec3_dz; // Paper
                  double d2 = d * d;

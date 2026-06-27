@@ -26,7 +26,7 @@ public final class PaperCommands {
         COMMANDS.put("mspt", new MSPTCommand("mspt"));
 
         COMMANDS.forEach((s, command) -> {
-            server.server.getCommandMap().register(s, "AmethystKQ", command);
+            server.server.getCommandMap().register(s, "AmetystKQ", command);
         });
     }
 
@@ -40,7 +40,7 @@ public final class PaperCommands {
         io.papermc.paper.command.brigadier.PaperCommands.INSTANCE.registerWithFlagsInternal(
             null,
             namespace,
-            "AmethystKQ",
+            "AmetystKQ",
             node,
             description,
             aliases,

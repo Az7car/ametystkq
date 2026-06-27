@@ -1,5 +1,6 @@
 package io.papermc.paper;
 
+import io.papermc.paper.util.AmetystKQWatermark;
 import java.util.List;
 import joptsimple.OptionSet;
 import net.minecraft.SharedConstants;
@@ -16,6 +17,7 @@ public final class PaperBootstrap {
     public static void boot(final OptionSet options) {
         SharedConstants.tryDetectVersion();
 
+        AmetystKQWatermark.print();
         getStartupVersionMessages().forEach(LOGGER::info);
 
         Main.main(options);

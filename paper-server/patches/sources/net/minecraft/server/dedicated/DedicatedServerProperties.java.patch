@@ -8,6 +8,11 @@
      public static final String MANAGEMENT_SERVER_TLS_ENABLED_KEY = "management-server-tls-enabled";
      public static final String MANAGEMENT_SERVER_TLS_KEYSTORE_KEY = "management-server-tls-keystore";
      public static final String MANAGEMENT_SERVER_TLS_KEYSTORE_PASSWORD_KEY = "management-server-tls-keystore-password";
+@@ -59,3 +_,3 @@
+     public final Settings<DedicatedServerProperties>.MutableValue<Boolean> allowFlight = this.getMutable("allow-flight", false);
+-    public final Settings<DedicatedServerProperties>.MutableValue<String> motd = this.getMutable("motd", "A Minecraft Server");
++    public final Settings<DedicatedServerProperties>.MutableValue<String> motd = this.getMutable("motd", "§x§c§7§7§f§f§f✦ §x§9§d§4§e§d§dAmetystKQ §x§c§7§7§f§f§f✦");
+     public final boolean codeOfConduct = this.get("enable-code-of-conduct", false);
 @@ -106,7 +_,7 @@
      public final boolean broadcastRconToOps = this.get("broadcast-rcon-to-ops", true);
      public final boolean broadcastConsoleToOps = this.get("broadcast-console-to-ops", true);

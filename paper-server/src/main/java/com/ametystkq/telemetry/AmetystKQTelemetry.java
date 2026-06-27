@@ -1,4 +1,4 @@
-package com.amethystkq.telemetry;
+package com.ametystkq.telemetry;
 
 import com.mojang.logging.LogUtils;
 import java.lang.management.ManagementFactory;
@@ -25,13 +25,13 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import org.slf4j.Logger;
 
-public final class AmethystKQTelemetry {
+public final class AmetystKQTelemetry {
 
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final String ENDPOINT = "https://amethystkq-telemetry.az7car.workers.dev";
+    private static final String ENDPOINT = "https://ametystkq-telemetry.az7car.workers.dev";
     private static final String ID_FILE = "telemetry-id";
     private static final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor(r -> {
-        Thread t = new Thread(r, "AmethystKQ-Telemetry");
+        Thread t = new Thread(r, "AmetystKQ-Telemetry");
         t.setDaemon(true);
         return t;
     });

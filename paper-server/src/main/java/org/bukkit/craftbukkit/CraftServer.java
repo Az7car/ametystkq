@@ -186,7 +186,7 @@ import org.bukkit.craftbukkit.metadata.PlayerMetadataStore;
 import org.bukkit.craftbukkit.metadata.WorldMetadataStore;
 import org.bukkit.craftbukkit.packs.CraftResourcePack;
 import org.bukkit.craftbukkit.profile.CraftPlayerProfile;
-import org.bukkit.craftbukkit.scheduler.CraftScheduler;
+import io.papermc.paper.util.scheduler.LockFreeCraftScheduler;
 import org.bukkit.craftbukkit.scoreboard.CraftCriteria;
 import org.bukkit.craftbukkit.scoreboard.CraftScoreboardManager;
 import org.bukkit.craftbukkit.structure.CraftStructureManager;
@@ -268,7 +268,7 @@ public final class CraftServer implements Server {
     private final String bukkitVersion = Versioning.getBukkitVersion();
     private final Logger logger = Logger.getLogger("Minecraft");
     private final ServicesManager servicesManager = new SimpleServicesManager();
-    private final CraftScheduler scheduler = new CraftScheduler();
+    private final LockFreeCraftScheduler scheduler = new LockFreeCraftScheduler();
     private final CraftCommandMap commandMap; // Paper - Move down
     private final SimpleHelpMap helpMap = new SimpleHelpMap(this);
     private final StandardMessenger messenger = new StandardMessenger();
@@ -896,7 +896,7 @@ public final class CraftServer implements Server {
     }
 
     @Override
-    public CraftScheduler getScheduler() {
+    public LockFreeCraftScheduler getScheduler() {
         return this.scheduler;
     }
 

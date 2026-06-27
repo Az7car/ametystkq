@@ -82,7 +82,7 @@ public class WatchdogThread extends ca.spottedleaf.moonrise.common.util.TickThre
                     logger.log(Level.SEVERE, "\t If this is the case, consider increasing timeout-time in spigot.yml but note that this will replace the crash with LARGE lag spikes");
                     logger.log(Level.SEVERE, "If you are unsure or still think this is a Paper bug, please report this to https://github.com/PaperMC/Paper/issues");
                     logger.log(Level.SEVERE, "Be sure to include ALL relevant console errors and Minecraft crash reports");
-                    logger.log(Level.SEVERE, "AmethystKQ version: " + Bukkit.getServer().getVersion());
+                    logger.log(Level.SEVERE, "AmetystKQ version: " + Bukkit.getServer().getVersion());
 
                     if (net.minecraft.world.level.Level.lastPhysicsProblem != null) {
                         logger.log(Level.SEVERE, "------------------------------");

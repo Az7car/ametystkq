@@ -19,6 +19,10 @@
 +    public final net.minecraft.server.level.progress.LevelLoadListener levelLoadListener;
 +    public boolean hasPhysicsEvent = true; // Paper - BlockPhysicsEvent
 +    public boolean hasEntityMoveEvent; // Paper - Add EntityMoveEvent
++    public final io.papermc.paper.chunkio.AsyncChunkCache ametystChunkCache; // AmetystKQ
++    public final io.papermc.paper.chunkio.ChunkWriteCoalescer ametystWriteCoalescer; // AmetystKQ
++    public final io.papermc.paper.chunkio.ChunkPrefetcher ametystChunkPrefetcher; // AmetystKQ
++    public final io.papermc.paper.entity.tracker.EntityBroadcastController ametystBroadcastController; // AmetystKQ
 +
 +    @Override
 +    public @Nullable LevelChunk getChunkIfLoaded(int x, int z) {
@@ -222,6 +226,10 @@
          this.updateSkyBrightness();
 -    }
 +        this.getCraftServer().addWorld(this.getWorld()); // CraftBukkit
++        this.ametystChunkCache = new io.papermc.paper.chunkio.AsyncChunkCache(this); // AmetystKQ
++        this.ametystWriteCoalescer = new io.papermc.paper.chunkio.ChunkWriteCoalescer(this); // AmetystKQ
++        this.ametystChunkPrefetcher = new io.papermc.paper.chunkio.ChunkPrefetcher(this); // AmetystKQ
++        this.ametystBroadcastController = new io.papermc.paper.entity.tracker.EntityBroadcastController(this); // AmetystKQ
 +    }
 +
 +    // Paper start
@@ -285,7 +293,7 @@
              profilerFiller.pop();
          }
  
-@@ -389,7 +_,7 @@
+@@ -389,7 +_,9 @@
  
          this.handlingTick = false;
          profilerFiller.pop();
@@ -294,6 +302,8 @@
          if (hasActiveTickets) {
              this.resetEmptyTime();
          }
++        this.ametystWriteCoalescer.tick(); // AmetystKQ - flush pending chunk writes
++        this.ametystBroadcastController.tick(); // AmetystKQ - flush queued entity broadcasts
 @@ -498,11 +_,13 @@
          ProfilerFiller profilerFiller = Profiler.get();
          profilerFiller.push("iceandsnow");
@@ -1167,6 +1177,7 @@
              ServerLevel.this.debugSynchronizers.dropEntity(entity);
 +            // CraftBukkit start
 +            entity.valid = false;
++            io.papermc.paper.util.cache.CraftWrapperCache.removeEntity(entity); // AmetystKQ
 +            if (!(entity instanceof ServerPlayer)) {
 +                for (ServerPlayer player : ServerLevel.this.server.getPlayerList().players) { // Paper - call onEntityRemove for all online players
 +                    player.getBukkitEntity().onEntityRemove(entity);

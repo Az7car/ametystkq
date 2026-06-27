@@ -533,9 +533,9 @@ public class WorldConfiguration extends ConfigurationPart {
     public TickRates tickRates;
 
     public class TickRates extends ConfigurationPart {
-        public int grassSpread = 1;
-        public int containerUpdate = 1;
-        public int mobSpawner = 1;
+        public int grassSpread = 10;
+        public int containerUpdate = 5;
+        public int mobSpawner = 2;
         public int wetFarmland = 1;
         public int dryFarmland = 1;
         public Table<EntityType<?>, String, Integer> sensor = Util.make(HashBasedTable.create(), table -> table.put(EntityType.VILLAGER, "secondarypoisensor", 40));

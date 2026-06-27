@@ -112,6 +112,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
         this.server = server;
         this.entity = entity;
         this.entityType = CraftEntityType.minecraftToBukkit(entity.getType());
+        io.papermc.paper.util.cache.CraftWrapperCache.cacheEntity(this); // AmetystKQ
     }
 
     public static <T extends Entity> CraftEntity getEntity(CraftServer server, T entity) {

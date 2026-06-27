@@ -198,10 +198,10 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
     private static final int OVERLOADED_TICKS_WARNING_INTERVAL = 100;
     private static final long STATUS_EXPIRE_TIME_NANOS = 5L * TimeUtil.NANOSECONDS_PER_SECOND;
     private static final long PREPARE_LEVELS_DEFAULT_DELAY_NANOS = 10L * TimeUtil.NANOSECONDS_PER_MILLISECOND;
-    private static final int MAX_STATUS_PLAYER_SAMPLE = 6;
+    private static final int MAX_STATUS_PLAYER_SAMPLE = 12;
     public static final int SPAWN_POSITION_SEARCH_RADIUS = 5;
     private static final int SERVER_ACTIVITY_MONITOR_SECONDS_BETWEEN_NOTIFICATIONS = 30;
-    private static final int AUTOSAVE_INTERVAL = 24000;
+    private static final int AUTOSAVE_INTERVAL = 6000;
     private static final int MIMINUM_AUTOSAVE_TICKS = 100;
     private static final int MAX_TICK_LATENCY = 3;
     public static final int ABSOLUTE_MAX_WORLD_SIZE = 29999984;
@@ -496,23 +496,20 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
         WorldStem worldStem,
         Proxy proxy,
         DataFixer fixerUpper,
-        Services services,
-        LevelLoadListener levelLoadListener
+        Services services
     ) {
         super("Server");
-        SERVER = this; // Paper - better singleton
         this.registries = worldStem.registries();
         this.worldData = worldStem.worldData();
-        if (false && !this.registries.compositeAccess().lookupOrThrow(Registries.LEVEL_STEM).containsKey(LevelStem.OVERWORLD)) { // CraftBukkit - initialised later
+        if (!this.registries.compositeAccess().lookupOrThrow(Registries.LEVEL_STEM).containsKey(LevelStem.OVERWORLD)) {
             throw new IllegalStateException("Missing Overworld dimension data");
         } else {
             this.proxy = proxy;
             this.packRepository = packRepository;
             this.resources = new MinecraftServer.ReloadableResources(worldStem.resourceManager(), worldStem.dataPackResources());
             this.services = services;
-            // this.connection = new ServerConnectionListener(this); // Spigot
+            this.connection = new ServerConnectionListener(this);
             this.tickRateManager = new ServerTickRateManager(this);
-            // Paper - per level load listener - move LevelLoadListener to ServerLevel
             this.storageSource = storageSource;
             this.playerDataStorage = storageSource.createPlayerStorage();
             this.fixerUpper = fixerUpper;
@@ -1007,7 +1004,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
         shutdownThread = Thread.currentThread(); // Paper - Improved watchdog support
         org.spigotmc.WatchdogThread.doStop(); // Paper - Improved watchdog support
         // CraftBukkit end
-        com.amethystkq.telemetry.AmethystKQTelemetry.stop(this);
         this.packetProcessor.close();
         if (this.metricsRecorder.isRecording()) {
             this.cancelRecordingMetrics();
@@ -1275,7 +1271,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
             org.spigotmc.WatchdogThread.tick();
             // Paper end
             org.spigotmc.WatchdogThread.hasStarted = true; // Paper
-            com.amethystkq.telemetry.AmethystKQTelemetry.start(this);
+            io.papermc.paper.util.AmetystKQBootstrap.init(MinecraftServer.getServer()); // AmetystKQ - initialize performance systems
             // Paper start - Add onboarding message for initial server start
             if (io.papermc.paper.configuration.GlobalConfiguration.isFirstStart) {
                 LOGGER.info("*************************************************************************************");

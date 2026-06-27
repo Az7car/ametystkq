@@ -174,37 +174,37 @@ public class SpigotWorldConfig {
 
     public byte mobSpawnRange;
     private void mobSpawnRange() {
-        this.mobSpawnRange = (byte) getInt("mob-spawn-range", 8); // Paper - Vanilla
+        this.mobSpawnRange = (byte) getInt("mob-spawn-range", 4); // Paper - Vanilla
         this.log("Mob Spawn Range: " + this.mobSpawnRange);
     }
 
     public int itemDespawnRate;
     private void itemDespawnRate() {
-        this.itemDespawnRate = this.getInt("item-despawn-rate", 6000);
+        this.itemDespawnRate = this.getInt("item-despawn-rate", 3000);
         this.log("Item Despawn Rate: " + this.itemDespawnRate);
     }
 
-    public int animalActivationRange = 32;
-    public int monsterActivationRange = 32;
-    public int raiderActivationRange = 64;
-    public int miscActivationRange = 16;
-    public int flyingMonsterActivationRange = 32;
-    public int waterActivationRange = 16;
-    public int villagerActivationRange = 32;
-    public int wakeUpInactiveAnimals = 4;
-    public int wakeUpInactiveAnimalsEvery = 60 * 20;
-    public int wakeUpInactiveAnimalsFor = 5 * 20;
-    public int wakeUpInactiveMonsters = 8;
-    public int wakeUpInactiveMonstersEvery = 20 * 20;
-    public int wakeUpInactiveMonstersFor = 5 * 20;
-    public int wakeUpInactiveVillagers = 4;
-    public int wakeUpInactiveVillagersEvery = 30 * 20;
-    public int wakeUpInactiveVillagersFor = 5 * 20;
-    public int wakeUpInactiveFlying = 8;
-    public int wakeUpInactiveFlyingEvery = 10 * 20;
-    public int wakeUpInactiveFlyingFor = 5 * 20;
-    public int villagersWorkImmunityAfter = 5 * 20;
-    public int villagersWorkImmunityFor = 20;
+    public int animalActivationRange = 16;
+    public int monsterActivationRange = 16;
+    public int raiderActivationRange = 24;
+    public int miscActivationRange = 8;
+    public int flyingMonsterActivationRange = 16;
+    public int waterActivationRange = 8;
+    public int villagerActivationRange = 16;
+    public int wakeUpInactiveAnimals = 2;
+    public int wakeUpInactiveAnimalsEvery = 100 * 20;
+    public int wakeUpInactiveAnimalsFor = 3 * 20;
+    public int wakeUpInactiveMonsters = 4;
+    public int wakeUpInactiveMonstersEvery = 40 * 20;
+    public int wakeUpInactiveMonstersFor = 3 * 20;
+    public int wakeUpInactiveVillagers = 2;
+    public int wakeUpInactiveVillagersEvery = 60 * 20;
+    public int wakeUpInactiveVillagersFor = 3 * 20;
+    public int wakeUpInactiveFlying = 4;
+    public int wakeUpInactiveFlyingEvery = 20 * 20;
+    public int wakeUpInactiveFlyingFor = 3 * 20;
+    public int villagersWorkImmunityAfter = 10 * 20;
+    public int villagersWorkImmunityFor = 40;
     public boolean villagersActiveForPanic = true;
     public boolean tickInactiveVillagers = true;
     public boolean ignoreSpectatorActivation = false;
@@ -243,12 +243,12 @@ public class SpigotWorldConfig {
         this.log("Entity Activation Range: An " + this.animalActivationRange + " / Mo " + this.monsterActivationRange + " / Ra " + this.raiderActivationRange + " / Mi " + this.miscActivationRange + " / Tiv " + this.tickInactiveVillagers + " / Isa " + this.ignoreSpectatorActivation);
     }
 
-    public int playerTrackingRange = 128;
-    public int animalTrackingRange = 96;
-    public int monsterTrackingRange = 96;
-    public int miscTrackingRange = 96;
-    public int displayTrackingRange = 128;
-    public int otherTrackingRange = 64;
+    public int playerTrackingRange = 48;
+    public int animalTrackingRange = 24;
+    public int monsterTrackingRange = 32;
+    public int miscTrackingRange = 16;
+    public int displayTrackingRange = 32;
+    public int otherTrackingRange = 16;
     private void trackingRange() {
         this.playerTrackingRange = this.getInt("entity-tracking-range.players", this.playerTrackingRange);
         this.animalTrackingRange = this.getInt("entity-tracking-range.animals", this.animalTrackingRange);
@@ -259,17 +259,17 @@ public class SpigotWorldConfig {
         this.log("Entity Tracking Range: Pl " + this.playerTrackingRange + " / An " + this.animalTrackingRange + " / Mo " + this.monsterTrackingRange + " / Mi " + this.miscTrackingRange + " / Di " + this.displayTrackingRange + " / Other " + this.otherTrackingRange);
     }
 
-    public int hopperTransfer;
-    public int hopperCheck;
+    public int hopperTransfer = 20;
+    public int hopperCheck = 4;
     public int hopperAmount;
     public boolean hopperCanLoadChunks;
     private void hoppers() {
         // Set the tick delay between hopper item movements
-        this.hopperTransfer = this.getInt("ticks-per.hopper-transfer", 8);
+        this.hopperTransfer = this.getInt("ticks-per.hopper-transfer", 20);
         if (SpigotConfig.version < 11) {
             this.set("ticks-per.hopper-check", 1);
         }
-        this.hopperCheck = this.getInt("ticks-per.hopper-check", 1);
+        this.hopperCheck = this.getInt("ticks-per.hopper-check", 4);
         this.hopperAmount = this.getInt("hopper-amount", 1);
         this.hopperCanLoadChunks = this.getBoolean("hopper-can-load-chunks", false);
         this.log("Hopper Transfer: " + this.hopperTransfer + " Hopper Check: " + this.hopperCheck + " Hopper Amount: " + this.hopperAmount + " Hopper Can Load Chunks: " + this.hopperCanLoadChunks);
@@ -278,7 +278,7 @@ public class SpigotWorldConfig {
     public int arrowDespawnRate;
     public int tridentDespawnRate;
     private void arrowDespawnRate() {
-        this.arrowDespawnRate = this.getInt("arrow-despawn-rate", 1200);
+        this.arrowDespawnRate = this.getInt("arrow-despawn-rate", 600);
         this.tridentDespawnRate = this.getInt("trident-despawn-rate", this.arrowDespawnRate);
         this.log("Arrow Despawn Rate: " + this.arrowDespawnRate + " Trident Respawn Rate:" + this.tridentDespawnRate);
     }
@@ -291,7 +291,7 @@ public class SpigotWorldConfig {
 
     public boolean nerfSpawnerMobs;
     private void nerfSpawnerMobs() {
-        this.nerfSpawnerMobs = this.getBoolean("nerf-spawner-mobs", false);
+        this.nerfSpawnerMobs = this.getBoolean("nerf-spawner-mobs", true);
         this.log("Nerfing mobs spawned from spawners: " + this.nerfSpawnerMobs);
     }
 
@@ -399,13 +399,13 @@ public class SpigotWorldConfig {
         if (SpigotConfig.version < 7) {
             this.set("max-tnt-per-tick", 100);
         }
-        this.maxTntTicksPerTick = this.getInt("max-tnt-per-tick", 100);
+        this.maxTntTicksPerTick = this.getInt("max-tnt-per-tick", 20);
         this.log("Max TNT Explosions: " + this.maxTntTicksPerTick);
     }
 
     public int hangingTickFrequency;
     private void hangingTickFrequency() {
-        this.hangingTickFrequency = this.getInt("hanging-tick-frequency", 100);
+        this.hangingTickFrequency = this.getInt("hanging-tick-frequency", 200);
     }
 
     public int tileMaxTickTime;

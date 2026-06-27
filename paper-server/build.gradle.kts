@@ -198,14 +198,14 @@ tasks.jar {
         val gitBranch = git.exec(providers, "rev-parse", "--abbrev-ref", "HEAD").get().trim()
         attributes(
             "Main-Class" to "org.bukkit.craftbukkit.Main",
-            "Implementation-Title" to "AmethystKQ",
+            "Implementation-Title" to "AmetystKQ",
             "Implementation-Version" to implementationVersion,
             "Implementation-Vendor" to date,
-            "Specification-Title" to "AmethystKQ",
+            "Specification-Title" to "AmetystKQ",
             "Specification-Version" to project.version,
-            "Specification-Vendor" to "AmethystKQ Team",
+            "Specification-Vendor" to "AmetystKQ Team",
             "Brand-Id" to "papermc:paper",
-            "Brand-Name" to "AmethystKQ",
+            "Brand-Name" to "AmetystKQ",
             "Build-Number" to (build ?: ""),
             "Build-Time" to buildTime.toString(),
             "Git-Branch" to gitBranch,
@@ -293,6 +293,53 @@ fun TaskContainer.registerRunTask(
         vendor.set(JvmVendorSpec.JETBRAINS)
     })
     jvmArgs("-XX:+AllowEnhancedClassRedefinition")
+
+    // AmetystKQ: GC tuning - auto-select based on JVM version
+    val jvmVersion = Runtime.version().feature()
+    if (jvmVersion >= 21) {
+        jvmArgs(
+            "-XX:+UseZGC", "-XX:+ZGenerational",
+            "-XX:MaxGCPauseMillis=5",
+            "-XX:+AlwaysPreTouch",
+            "-XX:+ParallelRefProcEnabled",
+            "-XX:+UseTransparentHugePages",
+            "-XX:+UnlockExperimentalVMOptions",
+            "-XX:-OmitStackTraceInFastThrow",
+        )
+    } else if (jvmVersion >= 17) {
+        jvmArgs(
+            "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=5",
+            "-XX:G1HeapRegionSize=16M",
+            "-XX:G1NewSizePercent=30",
+            "-XX:G1MaxNewSizePercent=40",
+            "-XX:G1HeapWastePercent=5",
+            "-XX:G1MixedGCCountTarget=4",
+            "-XX:InitiatingHeapOccupancyPercent=15",
+            "-XX:G1MixedGCLiveThresholdPercent=90",
+            "-XX:G1RSetUpdatingPauseTimePercent=5",
+            "-XX:SurvivorRatio=32",
+            "-XX:+AlwaysPreTouch",
+            "-XX:+ParallelRefProcEnabled",
+            "-XX:+UseTransparentHugePages",
+            "-XX:+UnlockExperimentalVMOptions",
+            "-XX:-OmitStackTraceInFastThrow",
+        )
+    }
+
+    // AmetystKQ: Netty performance tuning
+    systemProperty("io.netty.leakDetectionLevel", "disabled")
+    systemProperty("io.netty.recycler.maxCapacity.default", "65536")
+    systemProperty("io.netty.recycler.maxCapacityPerChannel", "65536")
+    systemProperty("io.netty.allocator.useCacheForAllThreads", "true")
+    systemProperty("io.netty.allocator.tinyCacheSize", "16384")
+    systemProperty("io.netty.allocator.smallCacheSize", "16384")
+    systemProperty("io.netty.allocator.normalCacheSize", "16384")
+    systemProperty("io.netty.allocator.maxCachedByteBuffers", "16384")
+    systemProperty("io.netty.allocator.maxCachedBufferCapacity", "131072")
+
+    // AmetystKQ: Server tuning
+    systemProperty("paper.playerconnection.keepalive", "60")
+    systemProperty("minecraft.chunk.io.maxConcurrent", "16")
 
     if (rootProject.childProjects["test-plugin"] != null) {
         val testPluginJar = rootProject.project(":test-plugin").tasks.jar.flatMap { it.archiveFile }

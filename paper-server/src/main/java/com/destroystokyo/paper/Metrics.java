@@ -593,7 +593,7 @@ public class Metrics {
             boolean logFailedRequests = config.getBoolean("logFailedRequests", false);
             // Only start Metrics, if it's enabled in the config
             if (config.getBoolean("enabled", true)) {
-                Metrics metrics = new Metrics("AmethystKQ", serverUUID, logFailedRequests, Bukkit.getLogger());
+                Metrics metrics = new Metrics("AmetystKQ", serverUUID, logFailedRequests, Bukkit.getLogger());
 
                 metrics.addCustomChart(new Metrics.SimplePie("minecraft_version", () -> {
                     String minecraftVersion = Bukkit.getVersion();
@@ -607,7 +607,7 @@ public class Metrics {
                 final String implVersion = org.bukkit.craftbukkit.Main.class.getPackage().getImplementationVersion();
                 if (implVersion != null) {
                     final String buildOrHash = implVersion.substring(implVersion.lastIndexOf('-') + 1);
-                    paperVersion = "AmethystKQ-%s-%s".formatted(Bukkit.getServer().getMinecraftVersion(), buildOrHash);
+                    paperVersion = "AmetystKQ-%s-%s".formatted(Bukkit.getServer().getMinecraftVersion(), buildOrHash);
                 } else {
                     paperVersion = "unknown";
                 }
