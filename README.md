@@ -1,6 +1,8 @@
 AmetystKQ
 ==========
 
+![AmetystKQ Logo](logo.png)
+
 A low-resource optimized Paper 1.21.11 fork for 20-player servers.
 
 **Links:**
