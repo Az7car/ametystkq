@@ -187,6 +187,7 @@ dependencies {
 }
 
 tasks.jar {
+    archiveBaseName.set("AmetystKQ")
     manifest {
         val git = Git(rootProject.layout.projectDirectory.path)
         val mcVersion = rootProject.providers.gradleProperty("mcVersion").get()
@@ -214,6 +215,21 @@ tasks.jar {
         for (tld in setOf("net", "com", "org")) {
             attributes("$tld/bukkit", "Sealed" to true)
         }
+    }
+}
+
+tasks.withType<AbstractArchiveTask>().configureEach {
+    val name = archiveBaseName.get()
+    archiveBaseName.set("AmetystKQ")
+}
+
+tasks.createMojmapPaperclipJar {
+    val jarVersion = project.version
+    doLast {
+        val src = outputZip.get().asFile
+        val dest = src.parentFile.resolve("AmetystKQ-${jarVersion}.jar")
+        src.copyTo(dest, overwrite = true)
+        println("Copied paperclip jar to: ${dest.name}")
     }
 }
 
