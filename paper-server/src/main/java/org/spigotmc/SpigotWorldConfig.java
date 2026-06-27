@@ -135,13 +135,13 @@ public class SpigotWorldConfig {
 
     public double itemMerge;
     private void itemMerge() {
-        this.itemMerge = this.getDouble("merge-radius.item", 0.5);
+        this.itemMerge = this.getDouble("merge-radius.item", 1.5);
         this.log("Item Merge Radius: " + this.itemMerge);
     }
 
     public double expMerge;
     private void expMerge() {
-        this.expMerge = this.getDouble("merge-radius.exp", -1);
+        this.expMerge = this.getDouble("merge-radius.exp", 1.0);
         this.log("Experience Merge Radius: " + this.expMerge);
     }
 
@@ -399,13 +399,13 @@ public class SpigotWorldConfig {
         if (SpigotConfig.version < 7) {
             this.set("max-tnt-per-tick", 100);
         }
-        this.maxTntTicksPerTick = this.getInt("max-tnt-per-tick", 20);
+        this.maxTntTicksPerTick = this.getInt("max-tnt-per-tick", 10);
         this.log("Max TNT Explosions: " + this.maxTntTicksPerTick);
     }
 
     public int hangingTickFrequency;
     private void hangingTickFrequency() {
-        this.hangingTickFrequency = this.getInt("hanging-tick-frequency", 200);
+        this.hangingTickFrequency = this.getInt("hanging-tick-frequency", 400);
     }
 
     public int tileMaxTickTime;

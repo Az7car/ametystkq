@@ -508,10 +508,11 @@ public class WorldConfiguration extends ConfigurationPart {
         public Duration delayChunkUnloadsBy = Duration.of("10s");
         public Reference2IntMap<EntityType<?>> entityPerChunkSaveLimit = Util.make(new Reference2IntOpenHashMap<>(BuiltInRegistries.ENTITY_TYPE.size()), map -> {
             map.defaultReturnValue(-1);
-            map.put(EntityType.EXPERIENCE_ORB, -1);
+            map.put(EntityType.EXPERIENCE_ORB, 100);
             map.put(EntityType.SNOWBALL, -1);
             map.put(EntityType.ENDER_PEARL, -1);
-            map.put(EntityType.ARROW, -1);
+            map.put(EntityType.ARROW, 100);
+            map.put(EntityType.ITEM, 100);
             map.put(EntityType.FIREBALL, -1);
             map.put(EntityType.SMALL_FIREBALL, -1);
         });
@@ -533,9 +534,9 @@ public class WorldConfiguration extends ConfigurationPart {
     public TickRates tickRates;
 
     public class TickRates extends ConfigurationPart {
-        public int grassSpread = 10;
-        public int containerUpdate = 5;
-        public int mobSpawner = 2;
+        public int grassSpread = 20;
+        public int containerUpdate = 3;
+        public int mobSpawner = 4;
         public int wetFarmland = 1;
         public int dryFarmland = 1;
         public Table<EntityType<?>, String, Integer> sensor = Util.make(HashBasedTable.create(), table -> table.put(EntityType.VILLAGER, "secondarypoisensor", 40));

@@ -42,10 +42,18 @@ public final class AmetystKQBootstrap {
 
         io.papermc.paper.entity.tracker.EntityBroadcastController.BROADCAST_INTERVAL = BROADCAST_INTERVAL;
 
+        applySystemOverrides();
+
         initNbtOptimizer();
         initDataFixerBypass();
 
         Runtime.getRuntime().addShutdownHook(new Thread(AmetystKQBootstrap::shutdown, "AmetystKQ Shutdown"));
+    }
+
+    private static void applySystemOverrides() {
+        System.setProperty("Paper.maxTickTime", "100");
+        System.setProperty("net.kyori.adventure.text.warnWhenLegacyFormattingDetected", "false");
+        System.setProperty("Paper.ignoreWorldDataVersion", "true");
     }
 
     private static void initNbtOptimizer() {

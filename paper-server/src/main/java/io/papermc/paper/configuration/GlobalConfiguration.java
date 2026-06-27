@@ -293,7 +293,7 @@ public class GlobalConfiguration extends ConfigurationPart {
 
 
     public class PlayerAutoSave extends ConfigurationPart {
-        public int rate = -1;
+        public int rate = 12000;
         private int maxPerTick = -1;
         public int maxPerTick() {
             if (this.maxPerTick < 0) {
@@ -329,16 +329,16 @@ public class GlobalConfiguration extends ConfigurationPart {
                 executor.setMaximumPoolSize(_chatExecutorMaxSize);
             }
         }
-        public int maxJoinsPerTick = 5;
+        public int maxJoinsPerTick = 2;
         public boolean sendFullPosForItemEntities = false;
         public boolean loadPermissionsYmlBeforePlugins = true;
         @Constraints.Min(4)
-        public int regionFileCacheSize = 256;
+        public int regionFileCacheSize = 512;
         @Comment("See https://luckformula.emc.gs")
         public boolean useAlternativeLuckFormula = false;
         public boolean useDimensionTypeForCustomSpawners = false;
         public boolean strictAdvancementDimensionCheck = false;
-        public IntOr.Default compressionLevel = IntOr.Default.USE_DEFAULT;
+        public IntOr.Default compressionLevel = new IntOr.Default(OptionalInt.of(256));
         @Comment("Defines the leniency distance added on the server to the interaction range of a player when validating interact packets.")
         public DoubleOr.Default clientInteractionLeniencyDistance = DoubleOr.Default.USE_DEFAULT;
         @Comment("Defines how many orbs groups can exist in an area.")
