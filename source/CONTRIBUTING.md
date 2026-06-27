@@ -1,7 +1,7 @@
 Contributing to AmetystKQ
 ===========================
 
-AmetystKQ is a fork of Paper 1.21.11 focused on performance for up to 200 players.
+AmetystKQ is a fork of Paper 1.21.11 focused on performance for up to 200 players on cheap hardware.
 
 ## Building
 
@@ -25,7 +25,7 @@ The compiled jar is at `source/paper-server/build/libs/`.
 
 ## Making Changes
 
-1. Edit source files in `source/paper-server/src/main/java/` (Paper code) or `source/paper-server/patches/` (Minecraft patches).
+1. Edit source files in `paper-server/src/main/java/` (AmetystKQ code) or `paper-server/patches/` (Minecraft patches).
 2. Rebuild with `./gradlew createMojmapPaperclipJar`.
 3. Test with `../scripts/start.sh`.
 
