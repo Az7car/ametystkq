@@ -8,12 +8,31 @@ A low-resource optimized Paper 1.21.11 fork for 20-player servers.
 - Discord: [kq.ametystmc.net/discord](https://kq.ametystmc.net/discord)
 - Website: [kq.ametystmc.net](https://kq.ametystmc.net)
 
+## Specifications
+| Metric | Value |
+|---|---|
+| **Startup Time** | ~16s (1GB RAM, Java 26 ZGC) |
+| **Memory** | 1GB minimum, 200 players on 16GB |
+| **View Distance** | 5 chunks |
+| **Entity Tracking** | Players: 48, Animals: 24, Monsters: 32, Misc: 16 |
+| **Broadcast Interval** | 6 ticks |
+| **Chunk Send Rate** | 15/s |
+| **Chunk Load Rate** | 25/s |
+| **Chunk Gen Rate** | 5/s |
+| **Item Despawn** | 3000 ticks (2.5 min) |
+| **Hopper Transfer** | 20 ticks |
+| **I/O Threads** | CPU/4 |
+| **Chunk Cache** | 128MB–1024MB |
+| **Java** | 21+ (ZGC recommended) |
+| **Compression** | Velocity libdeflate + OpenSSL |
+| **JAR Size** | ~53 MB |
+
 How To (Server Admins)
 ------
-AmetystKQ is distributed as a paperclip jar. Download from [kq.ametystmc.net](https://kq.ametystmc.net) and run it like a normal Minecraft server jar.
+AmetystKQ is distributed as a paperclip jar. Download from [kq.ametystmc.net](https://kq.ametystmc.net) or from the [GitHub Releases](https://github.com/Az7car/ametystkq/releases).
 
 ```
-java -jar AmetystKQ-1.21.11.jar --nogui
+java -Xms1G -Xmx1G -XX:+UseZGC -jar AmetystKQ-1.21.11.jar --nogui
 ```
 
 How To (Compiling From Source)
