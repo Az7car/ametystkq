@@ -101,7 +101,7 @@ public class GlobalConfiguration extends ConfigurationPart {
     public Spark spark;
 
     public class Spark extends ConfigurationPart {
-        public boolean enabled = true;
+        public boolean enabled = false;
         public boolean enableImmediately = false;
     }
 
@@ -117,7 +117,8 @@ public class GlobalConfiguration extends ConfigurationPart {
         public Velocity velocity;
 
         public class Velocity extends ConfigurationPart {
-            public boolean enabled = false;
+        public boolean enabled = false;
+        public boolean enableImmediately = false;
             public boolean onlineMode = true;
             public String secret = "";
 

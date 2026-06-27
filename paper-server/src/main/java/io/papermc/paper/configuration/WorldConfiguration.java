@@ -291,7 +291,7 @@ public class WorldConfiguration extends ConfigurationPart {
                 map.put(EntityType.VINDICATOR, Arrays.stream(Difficulty.values()).filter(Vindicator.DOOR_BREAKING_PREDICATE).toList());
             });
 
-            public boolean disableCreeperLingeringEffect = false;
+            public boolean disableCreeperLingeringEffect = true;
             public boolean enderDragonsDeathAlwaysPlacesDragonEgg = false;
             public boolean phantomsDoNotSpawnOnCreativePlayers = true;
             public boolean phantomsOnlyAttackInsomniacs = true;
@@ -309,13 +309,13 @@ public class WorldConfiguration extends ConfigurationPart {
             }
 
             public boolean disablePlayerCrits = false;
-            public boolean nerfPigmenFromNetherPortals = false;
+            public boolean nerfPigmenFromNetherPortals = true;
             @Comment("Prevents merging items that are not on the same y level, preventing potential visual artifacts.")
-            public boolean onlyMergeItemsHorizontally = false;
+            public boolean onlyMergeItemsHorizontally = true;
             public PillagerPatrols pillagerPatrols;
 
             public class PillagerPatrols extends ConfigurationPart {
-                public boolean disable = false;
+                public boolean disable = true;
                 public double spawnChance = 0.2;
                 public SpawnDelay spawnDelay;
                 public Start start;
@@ -402,7 +402,7 @@ public class WorldConfiguration extends ConfigurationPart {
     public Scoreboards scoreboards;
 
     public class Scoreboards extends ConfigurationPart {
-        public boolean allowNonPlayerEntitiesOnScoreboards = true;
+        public boolean allowNonPlayerEntitiesOnScoreboards = false;
         public boolean useVanillaWorldScoreboardNameColoring = false;
     }
 
@@ -411,7 +411,7 @@ public class WorldConfiguration extends ConfigurationPart {
     public class Environment extends ConfigurationPart {
         public boolean disableThunder = false;
         public boolean disableIceAndSnow = false;
-        public boolean optimizeExplosions = false;
+        public boolean optimizeExplosions = true;
         public boolean disableExplosionKnockback = false;
         public boolean generateFlatBedrock = false;
         public FrostedIce frostedIce;
@@ -437,14 +437,14 @@ public class WorldConfiguration extends ConfigurationPart {
             public BooleanOrDefault findAlreadyDiscoveredLootTable = BooleanOrDefault.USE_DEFAULT;
         }
 
-        public int fireTickDelay = 30;
+        public int fireTickDelay = 60;
         public int waterOverLavaFlowSpeed = 5;
         public int portalSearchRadius = 128;
         public int portalCreateRadius = 16;
         public boolean portalSearchVanillaDimensionScaling = true;
         public IntOr.Disabled netherCeilingVoidDamageHeight = IntOr.Disabled.DISABLED;
-        public int maxFluidTicks = 65536;
-        public int maxBlockTicks = 65536;
+        public int maxFluidTicks = 32768;
+        public int maxBlockTicks = 32768;
         public boolean locateStructuresOutsideWorldBorder = false;
     }
 
@@ -457,16 +457,16 @@ public class WorldConfiguration extends ConfigurationPart {
     public Maps maps;
 
     public class Maps extends ConfigurationPart {
-        public int itemFrameCursorLimit = 128;
-        public int itemFrameCursorUpdateInterval = 10;
+        public int itemFrameCursorLimit = 64;
+        public int itemFrameCursorUpdateInterval = 20;
     }
 
     public Fixes fixes;
 
     public class Fixes extends ConfigurationPart {
-        public boolean fixItemsMergingThroughWalls = false;
+        public boolean fixItemsMergingThroughWalls = true;
         public boolean disableUnloadedChunkEnderpearlExploit = false;
-        public boolean preventTntFromMovingInWater = false;
+        public boolean preventTntFromMovingInWater = true;
         public boolean splitOverstackedLoot = true;
         public IntOr.Disabled fallingBlockHeightNerf = IntOr.Disabled.DISABLED;
         public IntOr.Disabled tntEntityHeightNerf = IntOr.Disabled.DISABLED;
@@ -484,7 +484,7 @@ public class WorldConfiguration extends ConfigurationPart {
     public class Hopper extends ConfigurationPart {
         public boolean cooldownWhenFull = true;
         public boolean disableMoveEvent = false;
-        public boolean ignoreOccludingBlocks = false;
+        public boolean ignoreOccludingBlocks = true;
     }
 
     public Collisions collisions;
@@ -492,7 +492,7 @@ public class WorldConfiguration extends ConfigurationPart {
     public class Collisions extends ConfigurationPart {
         public boolean onlyPlayersCollide = false;
         public boolean allowVehicleCollisions = true;
-        public boolean fixClimbingBypassingCrammingRule = false;
+        public boolean fixClimbingBypassingCrammingRule = true;
         @RequiresSpigotInitialization(MaxEntityCollisionsInitializer.class)
         public int maxEntityCollisions = 8;
         public boolean allowPlayerCrammingDamage = false;
@@ -502,9 +502,9 @@ public class WorldConfiguration extends ConfigurationPart {
 
     public class Chunks extends ConfigurationPart {
         public AutosavePeriod autoSaveInterval = AutosavePeriod.def();
-        public int maxAutoSaveChunksPerTick = 24;
+        public int maxAutoSaveChunksPerTick = 12;
         public int fixedChunkInhabitedTime = -1;
-        public boolean preventMovingIntoUnloadedChunks = false;
+        public boolean preventMovingIntoUnloadedChunks = true;
         public Duration delayChunkUnloadsBy = Duration.of("10s");
         public Reference2IntMap<EntityType<?>> entityPerChunkSaveLimit = Util.make(new Reference2IntOpenHashMap<>(BuiltInRegistries.ENTITY_TYPE.size()), map -> {
             map.defaultReturnValue(-1);
