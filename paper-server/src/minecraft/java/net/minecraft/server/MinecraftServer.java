@@ -561,6 +561,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
         Runtime.getRuntime().addShutdownHook(new org.bukkit.craftbukkit.util.ServerShutdownThread(this));
         // CraftBukkit end
         this.paperConfigurations = services.paper().configurations(); // Paper - add paper configuration files
+        SERVER = this; // Paper
     }
 
     protected abstract boolean initServer() throws IOException;

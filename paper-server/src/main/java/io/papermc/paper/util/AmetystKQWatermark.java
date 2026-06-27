@@ -15,11 +15,14 @@ public final class AmetystKQWatermark {
     private static final TextColor COLOR_DARK = NamedTextColor.DARK_GRAY;
 
     private static final String[] BANNER = {
-        "    _          _      _   _    ____   __ ",
-        "   / \\   _ __ | |_ __| | | | _|___ \\ / _|",
-        "  / _ \\ | '_ \\| __/ _` | | |/ / __) | |_ ",
-        " / ___ \\| | | | || (_| | |   < / __/|  _|",
-        "/_/   \\_\\_| |_|\\__\\__,_| |_|\\_\\_____|_|  ",
+        "▄▄                                                                 ▄▄   ▄▄▄    ▄▄▄▄   ",
+        "   ████                          ██                            ██      ██  ██▀    ██▀▀██  ",
+        "   ████    ████▄██▄   ▄████▄   ███████   ▀██  ███  ▄▄█████▄  ███████   ██▄██     ██    ██ ",
+        "  ██  ██   ██ ██ ██  ██▄▄▄▄██    ██       ██▄ ██   ██▄▄▄▄ ▀    ██      █████     ██    ██ ",
+        "  ██████   ██ ██ ██  ██▀▀▀▀▀▀    ██        ████▀    ▀▀▀▀██▄    ██      ██  ██▄   ██    ██ ",
+        " ▄██  ██▄  ██ ██ ██  ▀██▄▄▄▄█    ██▄▄▄      ███    █▄▄▄▄▄██    ██▄▄▄   ██   ██▄   ██▄▄██▀ ",
+        " ▀▀    ▀▀  ▀▀ ▀▀ ▀▀    ▀▀▀▀▀      ▀▀▀▀      ██      ▀▀▀▀▀▀      ▀▀▀▀   ▀▀    ▀▀    ▀▀▀██  ",
+        "                                          ███                                          ▀  ",
     };
 
     private static final String VERSION_STRING = "AmetystKQ 1.21.1";
@@ -36,7 +39,10 @@ public final class AmetystKQWatermark {
                 case 1 -> ansiSecondary;
                 case 2 -> ansiPrimary;
                 case 3 -> ansiSecondary;
-                case 4 -> ansiAccent;
+                case 4 -> ansiPrimary;
+                case 5 -> ansiSecondary;
+                case 6 -> ansiPrimary;
+                case 7 -> ansiAccent;
                 default -> ansiReset;
             };
             System.out.println(color + BANNER[i] + ansiReset);
