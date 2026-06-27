@@ -80,10 +80,10 @@ public final class AmetystKQBootstrap {
             CONFIG.mobSpawnerTickRate, CONFIG.hangingTickFreq, CONFIG.fireTickRate);
         LOGGER.info("  Items: merge={} xpMerge={} despawn={} arrow={}",
             CONFIG.itemMergeRadius, CONFIG.xpMergeRadius, CONFIG.itemDespawnTicks, CONFIG.arrowDespawnTicks);
-        LOGGER.info("  Entity activation: monster={} animal={} water={} misc={} collisions={}",
+        LOGGER.info("  Activation: monster={} animal={} water={} misc={} collisions={} sim={}",
             CONFIG.entityActivationRangeMonsters, CONFIG.entityActivationRangeAnimals,
             CONFIG.entityActivationRangeWater, CONFIG.entityActivationRangeMisc,
-            CONFIG.maxEntityCollisions);
+            CONFIG.maxEntityCollisions, CONFIG.simulationDistance);
 
         final GlobalConfiguration global = GlobalConfiguration.get();
         global.playerAutoSave.rate = CONFIG.autoSaveTicks;
@@ -95,6 +95,24 @@ public final class AmetystKQBootstrap {
         int worldCount = 0;
         for (final ServerLevel level : server.getAllLevels()) {
             worldCount++;
+
+            final var spigot = level.spigotConfig;
+
+            spigot.hopperTransfer = CONFIG.hopperTransferTicks;
+            spigot.itemMerge = CONFIG.itemMergeRadius;
+            spigot.expMerge = CONFIG.xpMergeRadius;
+            spigot.itemDespawnRate = CONFIG.itemDespawnTicks;
+            spigot.arrowDespawnRate = CONFIG.arrowDespawnTicks;
+            spigot.hangingTickFrequency = CONFIG.hangingTickFreq;
+            spigot.monsterActivationRange = CONFIG.entityActivationRangeMonsters;
+            spigot.animalActivationRange = CONFIG.entityActivationRangeAnimals;
+            spigot.waterActivationRange = CONFIG.entityActivationRangeWater;
+            spigot.miscActivationRange = CONFIG.entityActivationRangeMisc;
+
+            if (CONFIG.simulationDistance > 0) {
+                spigot.simulationDistance = CONFIG.simulationDistance;
+            }
+
             final WorldConfiguration wc = level.paperConfig();
 
             final var spawning = wc.entities.spawning;
