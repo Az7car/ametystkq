@@ -1,0 +1,204 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Az7car <az7car@amethystkq.com>
+Date: Sun, 28 Jun 2026 14:54:56 +0200
+Subject: [PATCH] AmetystKQ config source patches for spawners, environment,
+ leaf decay
+
+
+diff --git a/net/minecraft/server/MinecraftServer.java b/net/minecraft/server/MinecraftServer.java
+index 5316bc09a798cb491124ec9b9a4f30de6826b787..c3ed0abd978a875383a16813a77cacf19aa37b7b 100644
+--- a/net/minecraft/server/MinecraftServer.java
++++ b/net/minecraft/server/MinecraftServer.java
+@@ -423,7 +423,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+             this.services = services;
+             this.connection = new ServerConnectionListener(this);
+             this.tickRateManager = new ServerTickRateManager(this);
+-            this.levelLoadListener = levelLoadListener;
++            // Paper - per world load listener - moved LevelLoadListener to ServerLevel
+             this.storageSource = storageSource;
+             this.playerDataStorage = storageSource.createPlayerStorage();
+             this.fixerUpper = fixerUpper;
+diff --git a/net/minecraft/world/entity/LightningBolt.java b/net/minecraft/world/entity/LightningBolt.java
+index e81eabf901e755e1254fff98cdd1e609cf07aab8..6fc2a1be6170eb9d41e8a9c72001f959cd5cb3ca 100644
+--- a/net/minecraft/world/entity/LightningBolt.java
++++ b/net/minecraft/world/entity/LightningBolt.java
+@@ -168,6 +168,7 @@ public class LightningBolt extends Entity {
+     }
+ 
+     private void spawnFire(int extraIgnitions) {
++        if (io.papermc.paper.configuration.AmetystKQConfig.get() != null && io.papermc.paper.configuration.AmetystKQConfig.get().disableLightningFire) return;
+         if (!this.visualOnly && !this.isEffect && this.level() instanceof ServerLevel serverLevel) { // Paper - Properly handle lightning effects api
+             BlockPos var7 = this.blockPosition();
+             if (serverLevel.canSpreadFireAround(var7)) {
+diff --git a/net/minecraft/world/entity/ai/village/VillageSiege.java b/net/minecraft/world/entity/ai/village/VillageSiege.java
+index a246ace744c686b34089d36a1ced06e5414f27f8..f7a90e5fe2893d9451230b48776c5ec499e85108 100644
+--- a/net/minecraft/world/entity/ai/village/VillageSiege.java
++++ b/net/minecraft/world/entity/ai/village/VillageSiege.java
+@@ -28,6 +28,7 @@ public class VillageSiege implements CustomSpawner {
+ 
+     @Override
+     public void tick(ServerLevel level, boolean spawnEnemies) {
++        if (io.papermc.paper.configuration.AmetystKQConfig.get() != null && io.papermc.paper.configuration.AmetystKQConfig.get().disableVillageSiege) return;
+         if (!level.isBrightOutside() && spawnEnemies) {
+             long l = level.getDayTime() % 24000L;
+             if (l == 18000L) {
+diff --git a/net/minecraft/world/entity/animal/bee/Bee.java b/net/minecraft/world/entity/animal/bee/Bee.java
+index 0cbcf23b6edba2305dfbbc95abb06a90a6edd42b..ee3203bf78579ac6a5d73ac25bfce7d906b451fa 100644
+--- a/net/minecraft/world/entity/animal/bee/Bee.java
++++ b/net/minecraft/world/entity/animal/bee/Bee.java
+@@ -153,6 +153,7 @@ public class Bee extends Animal implements NeutralMob, FlyingAnimal {
+ 
+     public Bee(EntityType<? extends Bee> type, Level level) {
+         super(type, level);
++        if (io.papermc.paper.configuration.AmetystKQConfig.get() != null && io.papermc.paper.configuration.AmetystKQConfig.get().disableBeeSpawner) { this.discard(); return; }
+         // Paper start - Fix MC-167279
+         class BeeFlyingMoveControl extends FlyingMoveControl {
+             public BeeFlyingMoveControl(final Mob mob, final int maxTurn, final boolean hoversInPlace) {
+diff --git a/net/minecraft/world/entity/animal/dolphin/Dolphin.java b/net/minecraft/world/entity/animal/dolphin/Dolphin.java
+index 3a3c9694d3a704aaaa241bd8601c7fd2439436cc..0e25184e6318755ac89c4f22c9d5038d793a3848 100644
+--- a/net/minecraft/world/entity/animal/dolphin/Dolphin.java
++++ b/net/minecraft/world/entity/animal/dolphin/Dolphin.java
+@@ -78,6 +78,7 @@ public class Dolphin extends AgeableWaterCreature {
+ 
+     public Dolphin(EntityType<? extends Dolphin> type, Level level) {
+         super(type, level);
++        if (io.papermc.paper.configuration.AmetystKQConfig.get() != null && io.papermc.paper.configuration.AmetystKQConfig.get().disableDolphinSpawner) { this.discard(); return; }
+         this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
+         this.lookControl = new SmoothSwimmingLookControl(this, 10);
+         this.setCanPickUpLoot(true);
+diff --git a/net/minecraft/world/entity/animal/feline/Ocelot.java b/net/minecraft/world/entity/animal/feline/Ocelot.java
+index cf940de8767df6d07551d7a221a0e87df4e41785..e4cd4d2a1bc101d94e123843a945dc55072a3a67 100644
+--- a/net/minecraft/world/entity/animal/feline/Ocelot.java
++++ b/net/minecraft/world/entity/animal/feline/Ocelot.java
+@@ -227,6 +227,7 @@ public class Ocelot extends Animal {
+     public static boolean checkOcelotSpawnRules(
+         EntityType<Ocelot> entityType, LevelAccessor level, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random
+     ) {
++        if (io.papermc.paper.configuration.AmetystKQConfig.get() != null && io.papermc.paper.configuration.AmetystKQConfig.get().disableOcelotSpawner) return false;
+         return random.nextInt(3) != 0;
+     }
+ 
+diff --git a/net/minecraft/world/entity/animal/frog/Frog.java b/net/minecraft/world/entity/animal/frog/Frog.java
+index 09d817aa34d4a6d8a49d614087f9942d75e673e8..0e7f97a6980f3dbee51ef68f3335b3e2368a4f65 100644
+--- a/net/minecraft/world/entity/animal/frog/Frog.java
++++ b/net/minecraft/world/entity/animal/frog/Frog.java
+@@ -370,6 +370,7 @@ public class Frog extends Animal {
+     public static boolean checkFrogSpawnRules(
+         EntityType<? extends Animal> entityType, LevelAccessor level, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random
+     ) {
++        if (io.papermc.paper.configuration.AmetystKQConfig.get() != null && io.papermc.paper.configuration.AmetystKQConfig.get().disableFrogSpawner) return false;
+         return level.getBlockState(pos.below()).is(BlockTags.FROGS_SPAWNABLE_ON) && isBrightEnoughToSpawn(level, pos);
+     }
+ 
+diff --git a/net/minecraft/world/entity/npc/CatSpawner.java b/net/minecraft/world/entity/npc/CatSpawner.java
+index 5401976c4fa86e2db6622743c8e8ea7381f72878..656935b6d683815fbb078e3d9781a3cb78a6d86f 100644
+--- a/net/minecraft/world/entity/npc/CatSpawner.java
++++ b/net/minecraft/world/entity/npc/CatSpawner.java
+@@ -21,6 +21,7 @@ public class CatSpawner implements CustomSpawner {
+ 
+     @Override
+     public void tick(ServerLevel level, boolean spawnEnemies) {
++        if (io.papermc.paper.configuration.AmetystKQConfig.get() != null && io.papermc.paper.configuration.AmetystKQConfig.get().disableCatSpawner) return;
+         this.nextTick--;
+         if (this.nextTick <= 0) {
+             this.nextTick = 1200;
+diff --git a/net/minecraft/world/entity/raid/Raids.java b/net/minecraft/world/entity/raid/Raids.java
+index 9ded4e75da1efd2fb351fa1544dca33da8455d98..530cb719fe4e394814529969309eb34f22f5076c 100644
+--- a/net/minecraft/world/entity/raid/Raids.java
++++ b/net/minecraft/world/entity/raid/Raids.java
+@@ -81,6 +81,7 @@ public class Raids extends SavedData {
+     }
+ 
+     public void tick(ServerLevel level) {
++        if (io.papermc.paper.configuration.AmetystKQConfig.get() != null && io.papermc.paper.configuration.AmetystKQConfig.get().disableRaid) return;
+         this.tick++;
+         Iterator<Raid> iterator = this.raidMap.values().iterator();
+ 
+@@ -108,6 +109,7 @@ public class Raids extends SavedData {
+     }
+ 
+     public @Nullable Raid createOrExtendRaid(ServerPlayer player, BlockPos pos) {
++        if (io.papermc.paper.configuration.AmetystKQConfig.get() != null && io.papermc.paper.configuration.AmetystKQConfig.get().disableRaid) return null;
+         if (player.isSpectator()) {
+             return null;
+         } else {
+diff --git a/net/minecraft/world/level/ServerExplosion.java b/net/minecraft/world/level/ServerExplosion.java
+index 907956791afe10021d9fc86bab7a115ee9ff57a5..51c0db9f64f34508947f91665de9b4039a5c73c7 100644
+--- a/net/minecraft/world/level/ServerExplosion.java
++++ b/net/minecraft/world/level/ServerExplosion.java
+@@ -338,6 +338,7 @@ public class ServerExplosion implements Explosion {
+     }
+ 
+     private void createFire(List<BlockPos> blocks) {
++        if (io.papermc.paper.configuration.AmetystKQConfig.get() != null && io.papermc.paper.configuration.AmetystKQConfig.get().disableExplosions) return;
+         for (BlockPos blockPos : blocks) {
+             if (this.level.random.nextInt(3) == 0 && this.level.getBlockState(blockPos).isAir() && this.level.getBlockState(blockPos.below()).isSolidRender()) {
+                 // CraftBukkit start - Ignition by explosion
+@@ -350,6 +351,7 @@ public class ServerExplosion implements Explosion {
+     }
+ 
+     public int explode() {
++        if (io.papermc.paper.configuration.AmetystKQConfig.get() != null && io.papermc.paper.configuration.AmetystKQConfig.get().disableExplosions) return 0;
+         this.level.gameEvent(this.source, GameEvent.EXPLODE, this.center);
+         List<BlockPos> list = this.calculateExplodedPositions();
+         this.hurtEntities();
+diff --git a/net/minecraft/world/level/block/FireBlock.java b/net/minecraft/world/level/block/FireBlock.java
+index 14a4189166b862b66a8383046f2abfe02ccbccd8..80271a5ed62c6cce120dbfa968c92f16f5e8b9ce 100644
+--- a/net/minecraft/world/level/block/FireBlock.java
++++ b/net/minecraft/world/level/block/FireBlock.java
+@@ -157,6 +157,7 @@ public class FireBlock extends BaseFireBlock {
+ 
+     @Override
+     protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
++        if (io.papermc.paper.configuration.AmetystKQConfig.get() != null && io.papermc.paper.configuration.AmetystKQConfig.get().disableFireSpread) return;
+         level.scheduleTick(pos, this, getFireTickDelay(level)); // Paper - Add fire-tick-delay option
+         if (level.canSpreadFireAround(pos)) {
+             if (!state.canSurvive(level, pos)) {
+diff --git a/net/minecraft/world/level/block/IceBlock.java b/net/minecraft/world/level/block/IceBlock.java
+index f29af8c07b80192bf8518ea6b356a52cda94b0f1..be589bc626645ea9dc702bad119cbdaf8b55fa2b 100644
+--- a/net/minecraft/world/level/block/IceBlock.java
++++ b/net/minecraft/world/level/block/IceBlock.java
+@@ -55,6 +55,7 @@ public class IceBlock extends HalfTransparentBlock {
+ 
+     @Override
+     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
++        if (io.papermc.paper.configuration.AmetystKQConfig.get() != null && io.papermc.paper.configuration.AmetystKQConfig.get().disableIceMelt) return;
+         if (level.getBrightness(LightLayer.BLOCK, pos) > 11 - state.getLightBlock()) {
+             this.melt(state, level, pos);
+         }
+diff --git a/net/minecraft/world/level/block/LeavesBlock.java b/net/minecraft/world/level/block/LeavesBlock.java
+index d5b114dca7b28d910f03ae3468e891d5d9863897..b90a30a7e2850cbb0f72904ebde5a970b801db92 100644
+--- a/net/minecraft/world/level/block/LeavesBlock.java
++++ b/net/minecraft/world/level/block/LeavesBlock.java
+@@ -65,6 +65,7 @@ public abstract class LeavesBlock extends Block implements SimpleWaterloggedBloc
+ 
+     @Override
+     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
++        if (io.papermc.paper.configuration.AmetystKQConfig.get() != null && !io.papermc.paper.configuration.AmetystKQConfig.get().fastLeafDecay) return;
+         if (this.decaying(state)) {
+             // CraftBukkit start
+             org.bukkit.event.block.LeavesDecayEvent event = new org.bukkit.event.block.LeavesDecayEvent(org.bukkit.craftbukkit.block.CraftBlock.at(level, pos));
+diff --git a/net/minecraft/world/level/block/SnowLayerBlock.java b/net/minecraft/world/level/block/SnowLayerBlock.java
+index de7e600ca1348b61990aaf4ffdd91c6c3ec13cf6..fa53dc4bfbdcd578e99b741771378ee4723a2241 100644
+--- a/net/minecraft/world/level/block/SnowLayerBlock.java
++++ b/net/minecraft/world/level/block/SnowLayerBlock.java
+@@ -102,6 +102,7 @@ public class SnowLayerBlock extends Block {
+ 
+     @Override
+     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
++        if (io.papermc.paper.configuration.AmetystKQConfig.get() != null && io.papermc.paper.configuration.AmetystKQConfig.get().disableSnowMelt) return;
+         if (level.getBrightness(LightLayer.BLOCK, pos) > 11) {
+             // CraftBukkit start
+             if (org.bukkit.craftbukkit.event.CraftEventFactory.callBlockFadeEvent(level, pos, Blocks.AIR.defaultBlockState()).isCancelled()) {
+diff --git a/net/minecraft/world/level/block/entity/trialspawner/TrialSpawner.java b/net/minecraft/world/level/block/entity/trialspawner/TrialSpawner.java
+index d6c74561bb7e95eb73143456289b5ce12148bdd2..69bf70066c13ab4f1e57b7f9411286ed1bdccb06 100644
+--- a/net/minecraft/world/level/block/entity/trialspawner/TrialSpawner.java
++++ b/net/minecraft/world/level/block/entity/trialspawner/TrialSpawner.java
+@@ -147,6 +147,7 @@ public final class TrialSpawner {
+     }
+ 
+     public boolean canSpawnInLevel(ServerLevel level) {
++        if (io.papermc.paper.configuration.AmetystKQConfig.get() != null && io.papermc.paper.configuration.AmetystKQConfig.get().disableTrialSpawner) return false;
+         return level.getGameRules().get(GameRules.SPAWNER_BLOCKS_WORK)
+             && (this.overridePeacefulAndMobSpawnRule || level.getDifficulty() != Difficulty.PEACEFUL && level.getGameRules().get(GameRules.SPAWN_MOBS));
+     }
